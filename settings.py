@@ -1,0 +1,10 @@
+
+#colors (R, G, B)
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GREY = (50, 50, 50)
+
+WIDTH, HEIGHT = 800, 600
+
+LEVEL_COUNT = 5
+BUTTON_SPACING = 70
