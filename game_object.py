@@ -2,19 +2,38 @@ import pygame
 import os
 from settings import WIDTH, HEIGHT, BLACK, WHITE
 
+#player, enemy, button, princess, chest
 
 class GameObject(pygame.sprite.Sprite):
-    def __init__(self, image):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = image
-        self.image.set_colorkey(BLACK)
-        self.rect = self.image.get_rect()
-        self.rect.center = (WIDTH / 2, HEIGHT / 2)
+    def __init__(self, image=None, rect=None, groups=None, x=None, y=None, *args, **kwargs):
+        if groups is None:
+            super().__init__(*args, **kwargs)
+        else:
+            super().__init__(groups, *args, **kwargs)
+
+        self._x = x
+        self._y = y
+        if image is not None:
+            self.image = image
+            try:
+                self.image.set_colorkey(BLACK)
+            except pygame.error:
+                 pass
+            if rect is None:
+                self.rect = self.image.get_rect()
+            else:
+                self.rect = rect
+            self.rect.center = (WIDTH / 2, HEIGHT / 2)
+        else:
+            self.image = pygame.Surface((32,32))
+            self.image.fill(WHITE)
+            self.rect = self.image.get_rect()
+            self.rect.center = (WIDTH / 2, HEIGHT / 2)
     
-    def update(self):
+    """def update(self):
         self.rect.x += 5
         if self.rect.left > WIDTH:
-            self.rect.right = 0
+            self.rect.right = 0"""
 
 class Button(pygame.sprite.Sprite):
     def __init__(self, text, x, y, WIDTH, HEIGHT, action):
@@ -26,7 +45,11 @@ class Button(pygame.sprite.Sprite):
         self.image.fill(WHITE)
         self.rect = self.image.get_rect(center=(x,y))
 
-        self.font = pygame.font.Font(None, 36)
+        try:
+            self.font = pygame.font.Font(None, 36)
+        except pygame.error:
+            self.font = pygame.font.SysFont(None, 36)
+
         self.text_surface = self.font.render(text, True, BLACK)
         self.text_rect = self.text_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2))
 
@@ -36,4 +59,3 @@ class Button(pygame.sprite.Sprite):
         if self.rect.collidepoint(mouse_pos):
             return self.action
         return None
-        

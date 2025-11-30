@@ -1,4 +1,3 @@
-
 #colors (R, G, B)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -8,3 +7,9 @@ WIDTH, HEIGHT = 800, 600
 
 LEVEL_COUNT = 5
 BUTTON_SPACING = 70
+
+class Properties():
+    def __init__(self, speed, attack, health):
+        self.speed = speed
+        self.attack = attack
+        self.health = health
